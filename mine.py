@@ -169,9 +169,8 @@ def get_user_profile(twitter_api, user_ids=None):
 
 
 #fun code
-x = get_friends_followers_ids(twitter_api, screen_name)
-print(x)
-profiles = get_user_profile(twitter_api, user_ids=x[1])
+u_i = get_friends_followers_ids(twitter_api, screen_name)
+profiles = get_user_profile(twitter_api, user_ids=u_i[1])
 for k, v in profiles.items():
     x = v.get("screen_name")
     y = v.get ("name")
