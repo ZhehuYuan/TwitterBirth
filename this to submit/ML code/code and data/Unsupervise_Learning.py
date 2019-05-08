@@ -28,17 +28,16 @@ if __name__ == '__main__':
         # **** pick the data you want to train, don't uncommon the text inside []
         # if ix % 3 == 2: # [uncommon this line to train screen name as data]
         # if ix % 3 == 1: # [uncommon this line to train name as data]
-        # if ix % 3 == 3: # [uncommon this line to train screen bios as data]
+        # if ix % 3 == 0: # [uncommon this line to train screen bios as data]
             x = []
             for i in line:
                 # use ascii code to read string
                 x.append(ord(i))
-
             while len(x) < 10: # **** change the "10" here to 20 if you want to train bio as data
                 # fix length for short input, length of bios is 20, length of name and screen name are 10
                 x.append(0)
             # mix training data with unlabeled training data
-            data.append(x[:10])
+            data.append(x[:10]) # **** change the "10" here to 20 if you want to train bio as data
     # print out len(data) collected
     print("Num of male: "+str(len(male)))
     print("Num of male: "+str(len(name)))
@@ -62,13 +61,13 @@ if __name__ == '__main__':
         # **** pick the data you want to train, don't uncommon the text inside []
         # if ix % 3 == 2: # [uncommon this line to train screen name as data]
         # if ix % 3 == 1: # [uncommon this line to train name as data]
-        # if ix % 3 == 3: # [uncommon this line to train screen bios as data]
+        # if ix % 3 == 0: # [uncommon this line to train screen bios as data]
             x = []
             for i in line:
                 x.append(ord(i))
             while len(x) < 10: # **** change the "10" here to 20 if you want to train bio as data
                 x.append(0)
-            data.append(x[:10])
+            data.append(x[:10]) # **** change the "10" here to 20 if you want to train bio as data
     print("Num of female: "+str(len(female)))
     print("Num of male and female: "+str(len(name)))
     print("Num of data till now: "+str(len(data)))
