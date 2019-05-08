@@ -18,10 +18,8 @@ screen_name = "etaglic"
 def oauth_login():
 
     APP = 'Mario'
-    CONSUMER_KEY = 'QZAldPFO2fnxSMPritCnlmQ8W'
-    CONSUMER_SECRET = 'Vk7t5V98Zu2jCoy6pNg6t8jwSPb6r69WPOw06FACob3Sa2Gsi8'
-    OAUTH_TOKEN = '1090338560509648898-FzQdIOiQXH4USIMBLEN2TUs2xY2waB'
-    OAUTH_TOKEN_SECRET = 'CbsM9lFgzasNRCv8yzbAGSXMwzudmDHn0mzxn41SvUrq'
+    CONSUMER_KEY = 'MFgug6whPGqaf98DvZqbnD4JW'
+    CONSUMER_SECRET = 'N4elfLvuJ8SkcUyRkf9uRvLvxlRfIMf9GWNJJHEePJDNPcnrSR'
     
     
     oauth_token, oauth_sec = twitter.oauth_dance(
@@ -109,15 +107,9 @@ def make_twitter_request(twitter_api_func, max_errors=10, *args, **kw):
                 raise
 
 
-def get_friends_followers_ids(twitter_api, screen_name=None, user_id=None,
+def get_friends_followers_ids(twitter_api, screen_name=None,
                               friends_limit=maxint, followers_limit=maxint):
 
-    # Must have either screen_name or user_id (logical xor)
-    assert (screen_name != None) != (
-        user_id != None),     "Must have screen_name or user_id, but not both, look at the your code bro."
-
-    # See http://bit.ly/2GcjKJP and http://bit.ly/2rFz90N for details
-    # on API parameters
 
     get_friends_ids = partial(make_twitter_request, twitter_api.friends.ids,
                               count=5000)
@@ -141,15 +133,11 @@ def get_friends_followers_ids(twitter_api, screen_name=None, user_id=None,
             if screen_name:
                 response = twitter_api_func(
                     screen_name=screen_name, cursor=cursor)
-            else:  # user_id
-                response = twitter_api_func(user_id=user_id, cursor=cursor)
-
             if response is not None:
                 ids += response['ids']
                 cursor = response['next_cursor']
-
             print('Fetched {0} total {1} ids for {2}'.format(
-                len(ids),                  label, (user_id or screen_name)), file=sys.stderr)
+                len(ids),                  label, (screen_name)), file=sys.stderr)
 
             # XXX: You may want to store data during each iteration to provide an
             # an additional layer of protection from exceptional circumstances
@@ -160,15 +148,11 @@ def get_friends_followers_ids(twitter_api, screen_name=None, user_id=None,
     return friends_ids[:friends_limit], followers_ids[:followers_limit]
 
 
-def get_user_profile(twitter_api, screen_names=None, user_ids=None):
-
-    # Must have either screen_name or user_id (logical xor)
-    assert (screen_names != None) != (
-        user_ids != None),     "Must have screen_name or user_id, but not both, look at the your code bro."
+def get_user_profile(twitter_api, user_ids=None):
 
     items_to_info = {}
 
-    items = screen_names or user_ids
+    items = user_ids
 
     while len(items) > 0:
 
@@ -178,17 +162,12 @@ def get_user_profile(twitter_api, screen_names=None, user_ids=None):
         items_str = ','.join([str(item) for item in items[:100]])
         items = items[100:]
 
-        if screen_names:
-            response = make_twitter_request(twitter_api.users.lookup,
-                                            screen_name=items_str)
-        else:  # user_ids
+        if user_ids:  # user_ids
             response = make_twitter_request(twitter_api.users.lookup,
                                             user_id=items_str)
 
         for user_info in response:
-            if screen_names:
-                items_to_info[user_info['screen_name']] = user_info
-            else:  # user_ids
+            if user_ids:  # user_ids
                 items_to_info[user_info['id']] = user_info
 
     return items_to_info
