@@ -116,7 +116,6 @@ def get_friends_followers_ids(twitter_api, screen_name=None,
     get_followers_ids = partial(make_twitter_request, twitter_api.followers.ids,
                                 count=5000)
 
-
     friends_ids, followers_ids = [], []
 
     for twitter_api_func, limit, ids, label in [
@@ -126,18 +125,19 @@ def get_friends_followers_ids(twitter_api, screen_name=None,
 
         if limit == 0:
             continue
-
         cursor = -1
+
         while cursor != 0:
             if screen_name:
                 response = twitter_api_func(
                     screen_name=screen_name, cursor=cursor)
+
             if response is not None:
                 ids += response['ids']
                 cursor = response['next_cursor']
-            print('Fetched {0} total {1} ids for {2}'.format(
-                len(ids),                  label, (screen_name)), file=sys.stderr)
 
+            print('Fetched {0} total {1} ids for {2}'.format(
+                len(ids),label, (screen_name)), file=sys.stderr)
 
             if len(ids) >= limit or response is None:
                 break
