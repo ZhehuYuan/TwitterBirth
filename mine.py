@@ -151,10 +151,6 @@ def get_user_profile(twitter_api, user_ids=None):
     items = user_ids
 
     while len(items) > 0:
-
-        # Process 100 items at a time per the API specifications for /users/lookup.
-        # See http://bit.ly/2Gcjfzr for details.
-
         items_str = ','.join([str(item) for item in items[:100]])
         items = items[100:]
 
@@ -174,6 +170,7 @@ def get_user_profile(twitter_api, user_ids=None):
 
 #core code
 x = get_friends_followers_ids(twitter_api, screen_name)
+print(x)
 profiles = get_user_profile(twitter_api, user_ids=x[1])
 for k, v in profiles.items():
     x = v.get("screen_name")
