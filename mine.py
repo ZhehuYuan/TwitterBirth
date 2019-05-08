@@ -20,8 +20,8 @@ def oauth_login():
     APP = 'Mario'
     CONSUMER_KEY = 'MFgug6whPGqaf98DvZqbnD4JW'
     CONSUMER_SECRET = 'N4elfLvuJ8SkcUyRkf9uRvLvxlRfIMf9GWNJJHEePJDNPcnrSR'
-    
-    
+
+
     oauth_token, oauth_sec = twitter.oauth_dance(
         APP, CONSUMER_KEY, CONSUMER_SECRET)
 
@@ -129,7 +129,6 @@ def get_friends_followers_ids(twitter_api, screen_name=None,
 
         cursor = -1
         while cursor != 0:
-            # Use make_twitter_request via the partially bound callable...
             if screen_name:
                 response = twitter_api_func(
                     screen_name=screen_name, cursor=cursor)
@@ -139,12 +138,9 @@ def get_friends_followers_ids(twitter_api, screen_name=None,
             print('Fetched {0} total {1} ids for {2}'.format(
                 len(ids),                  label, (screen_name)), file=sys.stderr)
 
-            # XXX: You may want to store data during each iteration to provide an
-            # an additional layer of protection from exceptional circumstances
 
             if len(ids) >= limit or response is None:
                 break
-    # Do something useful with the IDs, like store them to disk...
     return friends_ids[:friends_limit], followers_ids[:followers_limit]
 
 
@@ -184,4 +180,3 @@ for k, v in profiles.items():
     y = v.get ("name")
     z = v.get("description")
     print("Screen Name: " + str(x) + "\n" +  "Name: " + str(y) + " \n" + "Bio: " + str(z))
-
