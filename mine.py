@@ -168,7 +168,7 @@ def get_user_profile(twitter_api, user_ids=None):
 
 
 
-#core code
+#fun code
 x = get_friends_followers_ids(twitter_api, screen_name)
 print(x)
 profiles = get_user_profile(twitter_api, user_ids=x[1])
@@ -176,4 +176,4 @@ for k, v in profiles.items():
     x = v.get("screen_name")
     y = v.get ("name")
     z = v.get("description")
-    print("Screen Name: " + str(x) + "\n" +  "Name: " + str(y) + " \n" + "Bio: " + str(z))
+    print(str(x) + "\n" + str(y) + "\n" + str(z))
